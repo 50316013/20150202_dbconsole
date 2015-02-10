@@ -1,83 +1,171 @@
 package dbconsole;
 
+import java.awt.Button;
+import java.awt.FlowLayout;
+import java.awt.Frame;
+import java.awt.TextField;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-public class MySQL {
-
-    // JDBCドライバの登録
-    String driver;
-    // データベースの指定
-    String server, dbname, url, user, password;
-    Connection con;
-    Statement stmt;
-    ResultSet rs;
-	public MySQL() {
-
-		 this.driver  = "org.gjt.mm.mysql.Driver";
-
-		        this.server  = "j11000.sangi01.net";      // MySQLサーバ ( IP または ホスト名 );
-
-		        this.dbname  = "javaapplication";         // データベース名;
-
-		        this.url = "jdbc:mysql://" + server + "/" + dbname + "?useUnicode=true&characterEncoding=UTF-8";
-
-		        this.user = "javaapplication";         // データベース作成ユーザ名;
-
-		        this.password  = "javaapplication";     // データベース作成ユーザパスワード;
+import framesystem.FrameSystemController;
 
 
-		try {
-			this.stmt =con.createStatement ();
-			this.con = DriverManager.getConnection(url, user, password);
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		
-		try {
-			Class.forName(driver);
-		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		
-	}
+public class MySQL extends Frame implements ActionListener,WindowListener{
 
-      public void close(){
+	         private TextField text1= new TextField("",10);
+	         private TextField text2= new TextField("",10);
+	         private Button button1=new Button("ラグビー世界ランキング表示");
+	
+	         // JDBCドライバの登録
+             String driver;
+             // データベースの指定
+             String server, dbname, url, user, password;
+             Connection con;
+             Statement stmt;
+             ResultSet rs;
+	
+            
+             
+	   public MySQL(FrameSystemController controller) {
+		  addWindowListener(this);
+          setTitle("RUGBYworldRanking");
+		  setLayout(new FlowLayout(FlowLayout.CENTER));		
+		  add(text1);
+		  add(text2);
+		  button1.addActionListener(this);
+		  
+			
+			
 
-   
-   try {
-	stmt.close();
-	rs.close();
-	 con.close();
-} catch (SQLException e) {
-	// TODO Auto-generated catch block
-	e.printStackTrace();
-}
-  
+	        this.driver  = "org.gjt.mm.mysql.Driver";
+	        this.server  = "j11000.sangi01.net";      // MySQLサーバ ( IP または ホスト名 );
+	        this.dbname  = "50316013";         // データベース名;
+	        this.url = "jdbc:mysql://" + server + "/" + dbname + "?useUnicode=true&characterEncoding=UTF-8";
+	        this.user = "50316013";         // データベース作成ユーザ名;
+	        this.password  = "50316013";     // データベース作成ユーザパスワード;
 
 
-      }
-      
-      public ResultSet selectAll(){
-
-       String sql = "SELECT * FROM scores";
-       ResultSet rs = null;
-       try {
-		rs = stmt.executeQuery (sql);
-	} catch (SQLException e) {
+	try {
+		this.con = DriverManager.getConnection(url, user, password);
+		this.stmt =con.createStatement ();			
+	     } catch (SQLException e1) {
 		// TODO Auto-generated catch block
-		e.printStackTrace();
+		e1.printStackTrace();
+	                              }
+
+
+	try {
+		Class.forName(driver);
+	    } catch (ClassNotFoundException e1) {
+		// TODO Auto-generated catch block
+		e1.printStackTrace();
+	                                       }
+
+
 	}
-       return rs;
 
 
-      }
 
+	public void close(){  
+	   try {
+	   stmt.close();
+	   rs.close();
+	   con.close();
+	   } catch (SQLException e) {
+	// TODO Auto-generated catch block
+	                             e.printStackTrace();
+	                            }                       
+	                 }
+
+
+	public ResultSet selectAll(){
+
+	String sql = "SELECT * FROM RugbyWorldRanking";
+	ResultSet rs = null;
+	try {
+	rs = stmt.executeQuery (sql);
+	   } catch (SQLException e) {
+	// TODO Auto-generated catch block
+	                            e.printStackTrace();
+	                            }
+	return rs;
+
+
+	}
+
+		    
+
+	public void setBounds(int i, int j, int k, int l) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void setVisible(boolean b) {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		// TODO Auto-generated method stub	
+		if(e.getSource() == button1){					
+			System.out.println(""+ rs);
+			
+			//Calculation_lib clib = Calculation_lib(val1,val2);//Calculation_libをFrameSystemのsrcにコピー
+			//text3.setText(String.valueOf(clib.getPlus()));
+			}
+			
+		
+	}
+
+	@Override
+	public void windowOpened(WindowEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void windowClosing(WindowEvent e) {
+		// TODO Auto-generated method stub
+		System.exit(0);
+	}
+
+	@Override
+	public void windowClosed(WindowEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void windowIconified(WindowEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void windowDeiconified(WindowEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void windowActivated(WindowEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void windowDeactivated(WindowEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	
 }
